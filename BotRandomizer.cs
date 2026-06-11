@@ -16,7 +16,7 @@ public class BotRandomizerPlugin : BasePlugin
     public override string ModuleName        => "BotRandomizer";
     public override string ModuleVersion     => "1.2.0";
     public override string ModuleAuthor      => "ed0ard & Misaka17032";
-    public override string ModuleDescription => "Randomize agent model, music kit, knife skins, and gloves for bots";
+    public override string ModuleDescription => "Randomize knives, gloves, weapon skins, agent models, music kits for bots";
 
     private readonly Random _rng = new();
     private readonly Dictionary<int, string> _botModels = new();
