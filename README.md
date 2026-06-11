@@ -20,4 +20,8 @@ CS2-Bot-Randomizer is a plugin based on CounterStrikeSharp that allows each bot 
 3. Navigate to `addons/counterstrikesharp/configs/core.json` and set `FollowCS2ServerGuidelines` to `false`
 
 3. Restart your server
+
+# Credits
+[cs2-WeaponPaints](https://github.com/Nereziel/cs2-WeaponPaints)
+
 ## If you find the project useful then please take the time to star⭐ the repository
