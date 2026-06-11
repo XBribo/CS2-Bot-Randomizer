@@ -13,7 +13,7 @@ CS2-Bot-Randomizer is a plugin based on CounterStrikeSharp that allows each bot 
 ![random_2](https://github.com/user-attachments/assets/e13ab9b5-1abc-4f1e-9b11-178c4dd3f420)
 
 # Installation
-1. Download the latest BotRandomizer.zip from [Releases](https://github.com/ed0ard/CS2-Bot-Randomizer/releases)
+1. Download the latest **BotRandomizer.zip** from [Releases](https://github.com/ed0ard/CS2-Bot-Randomizer/releases)
 
 2. Decompress it and upload the folder to `game/csgo/addons/counterstrikesharp/plugins` on your server
 
