@@ -14,9 +14,9 @@ namespace BotRandomizer;
 public class BotRandomizerPlugin : BasePlugin
 {
     public override string ModuleName        => "BotRandomizer";
-    public override string ModuleVersion     => "1.2.0";
+    public override string ModuleVersion     => "1.2.1";
     public override string ModuleAuthor      => "ed0ard & Misaka17032";
-    public override string ModuleDescription => "Randomize knives, gloves, weapon skins, agent models, music kits for bots";
+    public override string ModuleDescription => "Randomize agent model, music kit, knife skins, and gloves for bots";
 
     private readonly Random _rng = new();
     private readonly Dictionary<int, string> _botModels = new();
@@ -149,6 +149,34 @@ public class BotRandomizerPlugin : BasePlugin
         ("weapon_knife_karambit",        507, "weapons/models/knife/karambit/weapon_knife_karambit.vmdl"),
         ("weapon_knife_m9_bayonet",      508, "weapons/models/knife/m9_bayonet/weapon_knife_m9_bayonet.vmdl"),
         ("weapon_knife_butterfly",       515, "weapons/models/knife/butterfly/weapon_knife_butterfly.vmdl"),
+    };
+
+    // Designer name → item definition index for every specific knife subclass.
+    // When a (human-controlled) bot picks one of these specific knives up at
+    // runtime, its subclass is re-resolved from this map so its animations match
+    // its model. See OnItemPickup / SyncPickedUpKnife.
+    private static readonly Dictionary<string, ushort> KnifeDefIndexByName = new()
+    {
+        ["weapon_bayonet"]               = 500,
+        ["weapon_knife_css"]             = 503,
+        ["weapon_knife_flip"]            = 505,
+        ["weapon_knife_gut"]             = 506,
+        ["weapon_knife_karambit"]        = 507,
+        ["weapon_knife_m9_bayonet"]      = 508,
+        ["weapon_knife_tactical"]        = 509,
+        ["weapon_knife_falchion"]        = 512,
+        ["weapon_knife_survival_bowie"]  = 514,
+        ["weapon_knife_butterfly"]       = 515,
+        ["weapon_knife_push"]            = 516,
+        ["weapon_knife_cord"]            = 517,
+        ["weapon_knife_canis"]           = 518,
+        ["weapon_knife_ursus"]           = 519,
+        ["weapon_knife_gypsy_jackknife"] = 520,
+        ["weapon_knife_outdoor"]         = 521,
+        ["weapon_knife_stiletto"]        = 522,
+        ["weapon_knife_widowmaker"]      = 523,
+        ["weapon_knife_skeleton"]        = 525,
+        ["weapon_knife_kukri"]           = 526,
     };
 
     private static readonly string[] CtModels =
@@ -287,6 +315,7 @@ public class BotRandomizerPlugin : BasePlugin
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
         RegisterEventHandler<EventRoundMvp>(OnRoundMvp, HookMode.Pre);
         RegisterEventHandler<EventPlayerTeam>(OnPlayerTeam);
+        RegisterEventHandler<EventItemPickup>(OnItemPickup);
 
         // Skin a bot's gun the instant the engine hands it the weapon.
         VirtualFunctions.GiveNamedItemFunc.Hook(OnGiveNamedItemPost, HookMode.Post);
@@ -650,6 +679,68 @@ public class BotRandomizerPlugin : BasePlugin
             e.ValueKind == System.Text.Json.JsonValueKind.Number
                 ? e.GetInt32()
                 : int.TryParse(e.GetString(), out var v) ? v : 0;
+    }
+
+    // When a bot picks up a specific knife at runtime, the knife's model swaps but its
+    // subclass can stay the one ReplaceKnife pinned at spawn,
+    // so the new knife plays the bound knife's animations. 
+    // We re-resolve the subclass from the knife's own designer name to fix that.
+    [GameEventHandler]
+    public HookResult OnItemPickup(EventItemPickup @event, GameEventInfo info)
+    {
+        var player = @event.Userid;
+        if (player == null || !player.IsValid || !player.IsBot)
+            return HookResult.Continue;
+
+        var item = @event.Item;
+        if (string.IsNullOrEmpty(item) || !(item.Contains("knife") || item.Contains("bayonet")))
+            return HookResult.Continue;
+
+        var pawn = player.PlayerPawn?.Value;
+        if (pawn == null || !pawn.IsValid)
+            return HookResult.Continue;
+
+        // Deferred a frame so the picked-up knife entity is fully settled.
+        Server.NextFrame(() => SyncPickedUpKnife(pawn));
+        return HookResult.Continue;
+    }
+
+    private void SyncPickedUpKnife(CCSPlayerPawn pawn)
+    {
+        try
+        {
+            if (pawn == null || !pawn.IsValid) return;
+
+            var weapons = pawn.WeaponServices?.MyWeapons;
+            if (weapons == null) return;
+
+            foreach (var handle in weapons)
+            {
+                var w = handle.Value;
+                if (w == null || !w.IsValid) continue;
+
+                var name = w.DesignerName;
+                if (string.IsNullOrEmpty(name)) continue;
+
+                // Only specific picked-up knives are in the map; the bot's bound
+                // spawn knife (designer name weapon_knife / weapon_knife_t) is not,
+                // so it is left to ReplaceKnife and never disturbed here.
+                if (!KnifeDefIndexByName.TryGetValue(name, out ushort defIndex)) continue;
+
+                var item = w.AttributeManager?.Item;
+                if (item == null) continue;
+
+                // Re-resolve the engine-side subclass so model, animations and HUD
+                // all match the knife the bot is actually holding.
+                w.AcceptInput("ChangeSubclass", value: defIndex.ToString());
+                item.ItemDefinitionIndex = defIndex;
+                Utilities.SetStateChanged(w, "CEconEntity", "m_AttributeManager");
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError($"[BotRandomizer] SyncPickedUpKnife failed: {ex.Message}");
+        }
     }
 
     [GameEventHandler]
