@@ -22,6 +22,6 @@ CS2-Bot-Randomizer is a plugin based on CounterStrikeSharp that allows each bot 
 3. Restart your server
 
 # Credits
-[cs2-WeaponPaints](https://github.com/Nereziel/cs2-WeaponPaints)
-
+[CS2-Lib](https://github.com/ianlucas/cs2-lib)  
+[CS2-CSS-Inventory-Simulator ](https://github.com/ianlucas/cs2-css-inventory-simulator)  
 ## If you find the project useful then please take the time to star⭐ the repository
