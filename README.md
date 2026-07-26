@@ -1,5 +1,5 @@
 # CS2-Bot-Randomizer
-CS2-Bot-Randomizer is a plugin based on CounterStrikeSharp that allows each bot to have their own knife, gloves, weapon skins, agent model, music kit, and avatar.
+CS2-Bot-Randomizer is a plugin based on CounterStrikeSharp that allows each bot to have their own knife, gloves, weapon skins, agent model, music kit, stickers, charms and avatar.
 # Features
 1. Assigns each bot a knife, a pair of gloves, a set of weapon skins, stickers and charms
 
