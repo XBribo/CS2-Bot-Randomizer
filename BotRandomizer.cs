@@ -178,13 +178,18 @@ public class BotRandomizerPlugin : BasePlugin
         ["weapon_knife_kukri"] = 526,
     };
 
-    // Only economy-backed agents can be reproduced by team intro entities
+    // Economy agents use their item definition index while default models use zero
     private static readonly (ushort DefIndex, string ModelPath)[] CtAgents =
     {
         (4757, "agents\\models\\ctm_diver\\ctm_diver_varianta.vmdl"),
         (4771, "agents\\models\\ctm_diver\\ctm_diver_variantb.vmdl"),
         (4772, "agents\\models\\ctm_diver\\ctm_diver_variantc.vmdl"),
+        (0, "agents\\models\\ctm_fbi\\ctm_fbi.vmdl"),
+        (0, "agents\\models\\ctm_fbi\\ctm_fbi_varianta.vmdl"),
         (5308, "agents\\models\\ctm_fbi\\ctm_fbi_variantb.vmdl"),
+        (0, "agents\\models\\ctm_fbi\\ctm_fbi_variantc.vmdl"),
+        (0, "agents\\models\\ctm_fbi\\ctm_fbi_variantd.vmdl"),
+        (0, "agents\\models\\ctm_fbi\\ctm_fbi_variante.vmdl"),
         (5305, "agents\\models\\ctm_fbi\\ctm_fbi_variantf.vmdl"),
         (5306, "agents\\models\\ctm_fbi\\ctm_fbi_variantg.vmdl"),
         (5307, "agents\\models\\ctm_fbi\\ctm_fbi_varianth.vmdl"),
@@ -193,6 +198,7 @@ public class BotRandomizerPlugin : BasePlugin
         (4751, "agents\\models\\ctm_gendarmerie\\ctm_gendarmerie_variantc.vmdl"),
         (4752, "agents\\models\\ctm_gendarmerie\\ctm_gendarmerie_variantd.vmdl"),
         (4753, "agents\\models\\ctm_gendarmerie\\ctm_gendarmerie_variante.vmdl"),
+        (0, "agents\\models\\ctm_sas\\ctm_sas.vmdl"),
         (5601, "agents\\models\\ctm_sas\\ctm_sas_variantf.vmdl"),
         (5602, "agents\\models\\ctm_sas\\ctm_sas_variantg.vmdl"),
         (5401, "agents\\models\\ctm_st6\\ctm_st6_variante.vmdl"),
@@ -212,7 +218,7 @@ public class BotRandomizerPlugin : BasePlugin
         (4756, "agents\\models\\ctm_swat\\ctm_swat_variantk.vmdl"),
     };
 
-    // Only economy-backed agents can be reproduced by team intro entities
+    // Economy agents use their item definition index while default models use zero
     private static readonly (ushort DefIndex, string ModelPath)[] TAgents =
     {
         (5500, "agents\\models\\tm_balkan\\tm_balkan_variantf.vmdl"),
@@ -230,11 +236,21 @@ public class BotRandomizerPlugin : BasePlugin
         (4777, "agents\\models\\tm_jungle_raider\\tm_jungle_raider_variante.vmdl"),
         (4778, "agents\\models\\tm_jungle_raider\\tm_jungle_raider_variantf.vmdl"),
         (4781, "agents\\models\\tm_jungle_raider\\tm_jungle_raider_variantf2.vmdl"),
+        (0, "agents\\models\\tm_leet\\tm_leet_varianta.vmdl"),
+        (0, "agents\\models\\tm_leet\\tm_leet_variantb.vmdl"),
+        (0, "agents\\models\\tm_leet\\tm_leet_variantc.vmdl"),
+        (0, "agents\\models\\tm_leet\\tm_leet_variantd.vmdl"),
+        (0, "agents\\models\\tm_leet\\tm_leet_variante.vmdl"),
         (5108, "agents\\models\\tm_leet\\tm_leet_variantf.vmdl"),
         (5105, "agents\\models\\tm_leet\\tm_leet_variantg.vmdl"),
         (5106, "agents\\models\\tm_leet\\tm_leet_varianth.vmdl"),
         (5107, "agents\\models\\tm_leet\\tm_leet_varianti.vmdl"),
         (5109, "agents\\models\\tm_leet\\tm_leet_variantj.vmdl"),
+        (0, "agents\\models\\tm_phoenix\\tm_phoenix.vmdl"),
+        (0, "agents\\models\\tm_phoenix\\tm_phoenix_varianta.vmdl"),
+        (0, "agents\\models\\tm_phoenix\\tm_phoenix_variantb.vmdl"),
+        (0, "agents\\models\\tm_phoenix\\tm_phoenix_variantc.vmdl"),
+        (0, "agents\\models\\tm_phoenix\\tm_phoenix_variantd.vmdl"),
         (5206, "agents\\models\\tm_phoenix\\tm_phoenix_variantf.vmdl"),
         (5207, "agents\\models\\tm_phoenix\\tm_phoenix_variantg.vmdl"),
         (5205, "agents\\models\\tm_phoenix\\tm_phoenix_varianth.vmdl"),
